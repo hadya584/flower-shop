@@ -5,7 +5,7 @@ This homework will have you develop a web store application.  **This is an indiv
 > This is an **INDIVIDUAL** project. You may not share code with other students!
 
 
-# WRITE YOUR NAME HERE
+# Hadya Osman
 
 ## Application Requirements
 The website should be able to display products being sold in several categories. A user visiting your web store can search for products (i.e., search for a specific item name and display that item) or display all items in a certain category. The website should display the available quantity and price for each product.
