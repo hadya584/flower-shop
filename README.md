@@ -27,32 +27,32 @@ A logged in user's shopping cart can be viewed, edited, checked out or deleted. 
 You have to complete most of the requirements for a level before you qualify for the next one.
 
 ### Bare Minimum earns you 50%
-- [ ] The user can see all the products the store sells; minimum of 10 products.
-- [ ] The user can see all the products in a specific category; minimum of 3 categories.
-- [ ] Database schema and scripts to create and populate the tables.
-  - [ ] This must be kept in the `store_schema.sql` file.
-- [ ] Minimal web interface: web page does not look professional, minimal styling, no form checks.
+- [X] The user can see all the products the store sells; minimum of 10 products.
+- [X] The user can see all the products in a specific category; minimum of 3 categories.
+- [X] Database schema and scripts to create and populate the tables.
+  - [X] This must be kept in the `store_schema.sql` file.
+- [X] Minimal web interface: web page does not look professional, minimal styling, no form checks.
 
 
 ### Base level takes you to 85% 
-- [ ] The user can search for a specific item by name.
-- [ ] The user can login, but not create a new account.
-  - [ ] Users who are not in the DB can't login.
-  - [ ] Must include a sample user named `testuser` with password `testpass`
-- [ ] The logged in user can view, add to, edit, check out or delete their cart.
-  - [ ] The cart should be stored as a session variable.
-- [ ] The database is updated when a user checks out.
+- [X] The user can search for a specific item by name.
+- [X] The user can login, but not create a new account.
+  - [X] Users who are not in the DB can't login.
+  - [X] Must include a sample user named `testuser` with password `testpass`
+- [X] The logged in user can view, add to, edit, check out or delete their cart.
+  - [X] The cart should be stored as a session variable.
+- [X] The database is updated when a user checks out.
 - [ ] The store doesn't let a user buy negative amounts or more than is in the inventory.
 
 ### Medium level takes you to 95%
-- [ ] A new user can sign up.
-- [ ] A logged in user can see his/her previous order history.
-- [ ] The front end is user friendly: website is easy and intuitive to navigate, no server error messages are presented to to user (if an error occurs, give a user friendly message).
-- [ ] Website style: products have pictures.
+- [X] A new user can sign up.
+- [X] A logged in user can see his/her previous order history.
+- [X] The front end is user friendly: website is easy and intuitive to navigate, no server error messages are presented to to user (if an error occurs, give a user friendly message).
+- [X] Website style: products have pictures.
 
 ### Prime level takes you to 100%
 - [ ] Implement client-side validation for input forms (e.g. quantity added to cart can't be negative) using Javascript.
-- [ ] The logged in user can sort its orders by date.
+- [X] The logged in user can sort its orders by date.
 - [ ] The logged in user can search for a product in his/her past orders.
 - [ ] Website inspires a professional look: has logo, product descriptions, etc.
 
