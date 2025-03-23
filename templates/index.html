@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <title>Flower Shop</title>
+    <style>
+        @font-face {
+            font-family: 'FlowerDisplay';
+            src: url("{{ url_for('static', filename='fonts/FlowerDisplayDemoRegular-8MnRB.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        h1 {
+            font-family: 'FlowerDisplay';
+            font-size: 2.5em;
+            color: #9d8189;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Blooms & Bees</h1>
+    </div>
+
+    <div class="category-banner">
+        <div class="user-menu">
+            <div class="user-icon">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="User" />
+            </div>
+            <div class="dropdown">
+                {% if 'user' in session %}
+                    <a href="/order_history">Order History</a>
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                    <a href="/signup">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="category-links">
+            {% for category in categories %}
+                <a href="/category/{{ category[0] }}">{{ category[0] }}</a>
+            {% endfor %}
+        </div>
+        {% if 'user' in session %}
+            <div class="category-controls">
+                <a href="/cart" class="right-link">
+                    <img src="{{ url_for('static', filename='images/basket.png') }}" alt="Basket" class="basket-icon">
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="search-bar">
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search flowers..." required>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="product">
+                <img src="{{ url_for('static', filename=product[6]) }}" alt="product_image">
+                <h3>{{ product[1] }}</h3>
+                <p>{{ product[2] }}</p>
+                <p>${{ product[4] }} | In stock: {{ product[5] }}</p>
+                {% if 'user' in session %}
+                    <form action="/add_to_cart/{{ product[0] }}" method="post" style="margin-top: 10px;" class="add-to-cart-form">
+                        <input type="number" name="quantity" min="1" max="{{ product[5] }}" value="1">
+                        <button type="submit">Add to Basket</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userMenu = document.querySelector(".user-menu");
+            const dropdown = userMenu.querySelector(".dropdown");
+
+            let hideTimeout;
+
+            userMenu.addEventListener("mouseenter", () => {
+                clearTimeout(hideTimeout);
+                dropdown.style.display = "block";
+            });
+
+            userMenu.addEventListener("mouseleave", () => {
+                hideTimeout = setTimeout(() => {
+                    dropdown.style.display = "none";
+                }, 500);
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const forms = document.querySelectorAll(".add-to-cart-form");
+            forms.forEach(form => {
+                form.addEventListener("submit", function (e) {
+                    const input = form.querySelector('input[name="quantity"]');
+                    const quantity = parseInt(input.value, 10);
+                    // Validate that the quantity is a positive number
+                    if (isNaN(quantity) || quantity < 1) {
+                        // Stop the form from submitting
+                        e.preventDefault(); 
+                        alert("Please enter a valid quantity (1 or more).");
+                        input.focus();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

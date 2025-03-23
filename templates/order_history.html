@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History - Blooms & Bees</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <style>
+        @font-face {
+            font-family: 'FlowerDisplay';
+            src: url("{{ url_for('static', filename='fonts/FlowerDisplayDemoRegular-8MnRB.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        h1 {
+            font-family: 'FlowerDisplay';
+            font-size: 2.5em;
+            color: #9d8189;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            color: #8c2f39;
+        }
+        .order {
+            border: 2px solid #fcb9b2;
+            border-radius: 10px;
+            background-color: #fff7f5;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 900px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        }
+        .order-title {
+            font-weight: bold;
+            font-size: 1.3em;
+            color: #461220;
+            margin-bottom: 10px;
+        }
+        .order-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .item {
+            background-color: #ffd7d2;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .item p {
+            margin: 4px 0;
+            font-size: 0.95em;
+        }
+        .total {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: right;
+            color: #8c2f39;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Blooms & Bees</h1>
+    </div>
+
+    <div class="category-banner">
+        <div class="user-menu">
+            <div class="user-icon">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="User" />
+            </div>
+            <div class="dropdown">
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <div class="category-links">
+            {% for category in categories %}
+                <a href="/category/{{ category[0] }}">{{ category[0] }}</a>
+            {% endfor %}
+        </div>
+        <div class="category-controls">
+            <a href="/cart" class="right-link">
+                <img src="{{ url_for('static', filename='images/basket.png') }}" alt="Basket" class="basket-icon">
+            </a>
+        </div>
+    </div>
+
+    <div class="search-bar">
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search flowers..." required>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
+    <h2>Order History</h2>
+
+    {% if details %}
+        {% for entry in details %}
+            <div class="order">
+                <div class="order-title">Order #{{ entry.order['order_numb'] }} - {{ entry.order['date'] }}</div>
+                <div class="order-items">
+                    {% for item in entry['items'] %}
+                        <div class="item">
+                            <p><strong>{{ item[0] }}</strong></p>
+                            <p>Quantity: {{ item[1] }}</p>
+                            <p>Subtotal: ${{ item[2] }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="total">Total: ${{ entry.order.total | round(2) }}</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">You have no past orders.</p>
+    {% endif %}
+</body>
+</html>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const userMenu = document.querySelector(".user-menu");
+        const dropdown = userMenu.querySelector(".dropdown");
+
+        let hideTimeout;
+
+        userMenu.addEventListener("mouseenter", () => {
+            clearTimeout(hideTimeout);
+            dropdown.style.display = "block";
+        });
+
+        userMenu.addEventListener("mouseleave", () => {
+            hideTimeout = setTimeout(() => {
+                dropdown.style.display = "none";
+            }, 500);
+        });
+    });
+</script>

@@ -1,0 +1,99 @@
+@font-face {
+    font-family: 'Movella';
+    src: url("{{ url_for('static', filename='/fonts/CsMovellaRegularDemo-vnOXZ.otf') }}") format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'Movella';
+    background-image: url('/static/images/flower_background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fcb9b2;
+    padding: 60px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-container {
+    background-color: #fbd2ce;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+.login-container h2 {
+    font-family: 'Movella', sans-serif;
+    color: #461220;
+    margin-bottom: 20px;
+    font-size: 3em;
+}
+
+
+.login-container input[type="text"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+.login-container input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+::placeholder {
+    color: #461220;
+    font-size: 1em;
+    font-family:'Times New Roman', Times, serif;
+    font-style: italic;
+    opacity: 0.5;
+}
+
+input:not(:placeholder-shown) {
+    border-color: #8c2f39;
+    color: #461220;
+    font-size: 1em;
+    font-family:'Times New Roman', Times, serif;
+    outline: none;
+    font-weight: bold;
+}
+
+input:focus {
+    outline: none;
+    border-color: #b30059;
+}
+
+.login-container button[type="submit"] {
+    padding: 10px;
+    background-color: #461220;
+    color: rgb(255, 222, 222);
+    border: none;
+    border-radius: 6px;
+    font-family:'Times New Roman', Times, serif;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-container input[type="submit"]:hover {
+    background-color: #800040;
+}
+
+.login-container .error {
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(48, 57, 51);
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}

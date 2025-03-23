@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Basket - Blooms & Bees</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <style>
+        @font-face {
+            font-family: 'FlowerDisplay';
+            src: url("{{ url_for('static', filename='fonts/FlowerDisplayDemoRegular-8MnRB.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        h1 {
+            font-family: 'FlowerDisplay';
+            font-size: 2.5em;
+            color: #9d8189;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            color: #8c2f39;
+        }
+        .total-price {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .checkout-button {
+            text-align: center;
+            margin: 20px;
+        }
+        .checkout-button a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #8c2f39;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+        .checkout-button a:hover {
+            background-color: #75272f;
+        }
+        .delete-cart {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .delete-cart button {
+            background-color: #c62828; /* Deep red to stand out */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-cart button:hover {
+            background-color: #a91c1c;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Blooms & Bees</h1>
+    </div>
+
+    <div class="category-banner">
+        <div class="user-menu">
+            <div class="user-icon">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="User" />
+            </div>
+            <div class="dropdown">
+                <a href="/order_history">Order History</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <div class="category-links">
+            {% for category in categories %}
+                <a href="/category/{{ category[0] }}">{{ category[0] }}</a>
+            {% endfor %}
+        </div>
+        <div class="category-controls">
+            <a href="/cart" class="right-link">
+                <img src="{{ url_for('static', filename='images/basket.png') }}" alt="Basket" class="basket-icon">
+            </a>
+        </div>
+    </div>
+    <div class="search-bar">
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search flowers..." required>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    <h2>Your Basket</h2>
+    <div class="delete-cart">
+        <form action="{{ url_for('clear_cart') }}" method="post">
+            <button type="submit">Clear Cart</button>
+        </form>
+    </div>
+    {% if items %}
+        <div class="product-grid">
+            {% for item in items %}
+                <div class="product">
+                    <img src="{{ url_for('static', filename=item.product[6]) }}" alt="product_image">
+                    <h3>{{ item.product[1] }}</h3>
+                    <p>{{ item.product[2] }}</p>
+                    <p>Price: ${{ item.product[4] }}</p>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Subtotal: ${{ item.subtotal }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="total-price">
+            Total: ${{ total }}
+        </div>
+        <div class="checkout-button">
+            <a href="/checkout">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <p style="text-align:center;">Your cart is empty.</p>
+    {% endif %}
+</body>
+</html>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const userMenu = document.querySelector(".user-menu");
+        const dropdown = userMenu.querySelector(".dropdown");
+
+        let hideTimeout;
+
+        userMenu.addEventListener("mouseenter", () => {
+            clearTimeout(hideTimeout);
+            dropdown.style.display = "block";
+        });
+
+        userMenu.addEventListener("mouseleave", () => {
+            hideTimeout = setTimeout(() => {
+                dropdown.style.display = "none";
+            }, 500);
+        });
+    });
+</script>
