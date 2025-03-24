@@ -42,7 +42,7 @@ You have to complete most of the requirements for a level before you qualify for
 - [X] The logged in user can view, add to, edit, check out or delete their cart.
   - [X] The cart should be stored as a session variable.
 - [X] The database is updated when a user checks out.
-- [ ] The store doesn't let a user buy negative amounts or more than is in the inventory.
+- [X] The store doesn't let a user buy negative amounts or more than is in the inventory.
 
 ### Medium level takes you to 95%
 - [X] A new user can sign up.
@@ -51,7 +51,7 @@ You have to complete most of the requirements for a level before you qualify for
 - [X] Website style: products have pictures.
 
 ### Prime level takes you to 100%
-- [ ] Implement client-side validation for input forms (e.g. quantity added to cart can't be negative) using Javascript.
+- [X] Implement client-side validation for input forms (e.g. quantity added to cart can't be negative) using Javascript.
 - [X] The logged in user can sort its orders by date.
 - [ ] The logged in user can search for a product in his/her past orders.
 - [ ] Website inspires a professional look: has logo, product descriptions, etc.
