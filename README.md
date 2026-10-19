@@ -1,63 +1,121 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/XBm9dTvV)
-## Description
-This homework will have you develop a web store application.  **This is an individual** assignment; you may discuss general Python/SQL techniques with other students, but all code that you write must be your own! You are expected to implement the following "from scratch", i.e., you may use the basic Flask libraries, templating abilities, etc, but you may not use 3rd party libraries to provide significant portions of functionality such as user logins.
+<div align="center">
 
-> This is an **INDIVIDUAL** project. You may not share code with other students!
+# Flower Shop
 
+**A full-stack e-commerce web app for an online flower store: browse bouquets, search, fill a cart, and check out with live inventory updates.**
 
-# Hadya Osman
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
 
-## Application Requirements
-The website should be able to display products being sold in several categories. A user visiting your web store can search for products (i.e., search for a specific item name and display that item) or display all items in a certain category. The website should display the available quantity and price for each product.
+</div>
 
-Only a logged in user can add products to a shopping cart and then checkout to complete a purchase and buy the products. To "buy" a product means to reduce the quantity from that product with the quantity that was "bought" (i.e. your database should be updated to reflect the reduction in quantity of items after checkout, not when added to the cart). 
+---
 
-A logged in user's shopping cart can be viewed, edited, checked out or deleted. A logged in user can also see her order history which should include the list of items purchased and total cost of the order.
+## Overview
 
-## Implementation
-- Python Flask will be used for all the server side scripting.
-- The cart should be implemented with Session variables. Hint: the session should be based on the user login.
-  - This means the shopping cart should *not* be stored in your database.
-- Check user input: do not allow me to buy -2 boxes of detergent or, 100 boxes if you only have 1 in stock.
-- Keep minimum information about customers: username and password, first and last name. We are not interested in addresses at this point.
-- Where details are not specified in the assignment, you should assume something "reasonable" that you think the client will expect. You should record any design decisions or assumptions you made in your `Readme.md`.
+Flower Shop is a web store built from scratch with Flask and SQLite. Shoppers can browse **24 bouquets** across **4 categories** (Roses, Tulips, Daisies, and Carnations), search by name, and see live price and stock. Logged-in users can build a cart, check out, and review their order history. Inventory is only reduced when an order is placed.
 
+<!-- Screenshots: add images to a /screenshots folder and uncomment.
+<p align="center">
+  <img src="screenshots/home.png" width="260" />
+  <img src="screenshots/cart.png" width="260" />
+  <img src="screenshots/orders.png" width="260" />
+</p>
+-->
 
-## Grading levels
-You have to complete most of the requirements for a level before you qualify for the next one.
+## Features
 
-### Bare Minimum earns you 50%
-- [X] The user can see all the products the store sells; minimum of 10 products.
-- [X] The user can see all the products in a specific category; minimum of 3 categories.
-- [X] Database schema and scripts to create and populate the tables.
-  - [X] This must be kept in the `store_schema.sql` file.
-- [X] Minimal web interface: web page does not look professional, minimal styling, no form checks.
+**Shopping**
+- Browse all products, or filter by category from the navigation bar
+- Search products by name with case-insensitive partial matching
+- Product cards with image, description, price, and quantity in stock
 
+**Accounts**
+- Sign up with a username, password, and first and last name, with duplicate-username checks
+- Log in and log out with session-based authentication
+- Visitors can browse freely, but only logged-in users can add to the cart or check out
 
-### Base level takes you to 85% 
-- [X] The user can search for a specific item by name.
-- [X] The user can login, but not create a new account.
-  - [X] Users who are not in the DB can't login.
-  - [X] Must include a sample user named `testuser` with password `testpass`
-- [X] The logged in user can view, add to, edit, check out or delete their cart.
-  - [X] The cart should be stored as a session variable.
-- [X] The database is updated when a user checks out.
-- [X] The store doesn't let a user buy negative amounts or more than is in the inventory.
+**Cart and checkout**
+- The cart is stored in the **Flask session**, not the database, so it costs nothing until checkout
+- View the cart with per-item subtotals and an order total, or clear it in one click
+- **Checkout is a single database transaction**: it creates the order and its line items, and decrements stock for each product
+- Creates a unique 12-digit order number for each purchase
 
-### Medium level takes you to 95%
-- [X] A new user can sign up.
-- [X] A logged in user can see his/her previous order history.
-- [X] The front end is user friendly: website is easy and intuitive to navigate, no server error messages are presented to to user (if an error occurs, give a user friendly message).
-- [X] Website style: products have pictures.
+**Input validation**
+- **Client side:** quantity inputs are bounded to 1 through the available stock, and JavaScript blocks invalid submissions
+- **Server side:** checkout re-checks stock against the database and rejects the order if any item exceeds what's available, so the cart can't oversell
 
-### Prime level takes you to 100%
-- [X] Implement client-side validation for input forms (e.g. quantity added to cart can't be negative) using Javascript.
-- [X] The logged in user can sort its orders by date.
-- [ ] The logged in user can search for a product in his/her past orders.
-- [ ] Website inspires a professional look: has logo, product descriptions, etc.
+**Order history**
+- See every past order with its date, order number, items, quantities, subtotals, and total
+- Orders are sorted newest first
 
-## Submission
-To submit your work you must carefully do the following:
-  - Fill in your personal info at the top of `Readme.md`
-  - Check off (i.e., fill in a `- [X]`) every task you fully completed in the Grading Levels listed above
-  - Make sure to commit and push your changes here!
+## Database Design
+
+`store_schema.sql` creates and seeds four tables:
+
+| Table | Purpose |
+| --- | --- |
+| `users` | Username (primary key), password, first and last name |
+| `products` | Name, description, category, price, quantity in stock, and image path |
+| `orders` | One row per checkout: user, total, timestamp, and unique order number |
+| `order_items` | Line items linking orders to products, with quantity and subtotal |
+
+Foreign keys connect `orders → users` and `order_items → orders / products` with cascading updates and deletes. All queries use **parameterized SQL**.
+
+## Tech Stack
+
+| Layer | Tools |
+| --- | --- |
+| Backend | Python, Flask (routing, sessions, flash messages) |
+| Database | SQLite |
+| Frontend | Jinja2 templates, HTML, CSS (custom fonts), JavaScript |
+
+## Getting Started
+
+### Prerequisites
+- Python 3.9+
+- `sqlite3` command-line tool (preinstalled on macOS)
+
+### Setup
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/hadya584/flower-shop.git
+cd flower-shop
+
+# 2. Create a virtual environment and install Flask
+python3 -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install flask
+
+# 3. (Optional) Reset the database to its starting inventory
+sqlite3 store.db < store_schema.sql
+
+# 4. Run the app
+python main.py
+```
+
+Then open **http://localhost:8080**.
+
+**Demo login:** username `testuser`, password `testpass`, or create a new account on the sign-up page.
+
+## Project Structure
+
+```
+flower-shop/
+├── main.py              # Flask app: routes for browsing, auth, cart, checkout, and order history
+├── store_schema.sql     # Schema + seed data (test user, 24 products)
+├── store.db             # SQLite database
+├── templates/           # index, category, search, cart, order_history, login, signup
+└── static/              # CSS, custom fonts, and product images
+```
+
+## Design Decisions
+
+- **Inventory is reduced at checkout, not when items are added to the cart**, so abandoned carts never lock up stock.
+- **Stock is validated twice.** The browser check gives instant feedback, and the server check at checkout is the source of truth, because browser checks can be bypassed.
+- **Each order stores line-item subtotals** at the price paid, so order history stays accurate even if product prices change later.
