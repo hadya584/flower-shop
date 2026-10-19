@@ -19,13 +19,14 @@
 
 Flower Shop is a web store built from scratch with Flask and SQLite. Shoppers can browse **24 bouquets** across **4 categories** (Roses, Tulips, Daisies, and Carnations), search by name, and see live price and stock. Logged-in users can build a cart, check out, and review their order history. Inventory is only reduced when an order is placed.
 
-<!-- Screenshots: add images to a /screenshots folder and uncomment.
+
 <p align="center">
-  <img src="screenshots/home.png" width="260" />
-  <img src="screenshots/cart.png" width="260" />
-  <img src="screenshots/orders.png" width="260" />
+  <img src="screenshots/login.png" width="360" />
+  <img src="screenshots/home.png" width="360" />
+  <img src="screenshots/basket.png" width="360" />
+  <img src="screenshots/search.png" width="360" />
 </p>
--->
+
 
 ## Features
 
